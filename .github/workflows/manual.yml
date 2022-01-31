@@ -7,8 +7,6 @@ name: Manual workflow
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 11 * * *"
-    - cron: "0 19 * * *"
     - cron: "0 05 * * *"
 jobs:
   build:
