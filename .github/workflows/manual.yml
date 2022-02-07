@@ -24,3 +24,18 @@ jobs:
 
     - name: Run
       run: go run main.go
+
+    - name: Move files
+      run: |
+        mkdir ./public
+        cp ./index.html ./public/
+        mv *.png ./public/
+      # If you have non-minimal setup with some assets and separate html/js files,
+      # provide --output=<output-file> option for `elm make` and remove this step
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      if: ${{ github.ref == 'refs/heads/main' }}
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public

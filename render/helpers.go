@@ -213,6 +213,12 @@ func fixT(in string) string {
 }
 
 func ozadje(dc *gg.Context) {
+
+	dir, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+
 	backgroundImageFilename := "jutro.jpeg"
 	if time.Now().UTC().Hour() > 10 {
 		backgroundImageFilename = "dan.jpeg"
@@ -220,7 +226,7 @@ func ozadje(dc *gg.Context) {
 	if time.Now().UTC().Hour() > 18 {
 		backgroundImageFilename = "vecer.jpeg"
 	}
-	backgroundImage, err := gg.LoadImage(backgroundImageFilename)
+	backgroundImage, err := gg.LoadImage(fmt.Sprintf("%s/bg/%s", dir, backgroundImageFilename))
 	if err != nil {
 		panic(err)
 	}
