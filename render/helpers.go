@@ -39,7 +39,7 @@ func cc(dc *gg.Context) {
 		A: uint8(100),
 	}
 	dc.SetColor(mutedColor)
-	s := "vir vreme.si"
+	s := fmt.Sprintf("%s vir vreme.si", time.Now().Format("02-01-2006 @ 15:04"))
 	marginX := 50.0
 	marginY := 25.0
 	textWidth, textHeight := dc.MeasureString(s)
