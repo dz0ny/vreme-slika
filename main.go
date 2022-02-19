@@ -20,7 +20,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(1)
 	}
-	if err := run("Ljubljana", "lj.png", true); err != nil {
+	if err := run("Ljubljana", "lj.png", false); err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(1)
 	}
