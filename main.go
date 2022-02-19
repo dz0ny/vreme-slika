@@ -16,7 +16,11 @@ var access_token = os.Getenv("TOKEN")
 const pageId = "107670851816100"
 
 func main() {
-	if err := run("Babno%20Polje", "bp.png"); err != nil {
+	if err := run("Babno%20Polje", "bp.png", true); err != nil {
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+		os.Exit(1)
+	}
+	if err := run("Ljubljana", "lj.png", true); err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(1)
 	}
@@ -42,13 +46,14 @@ func fbPublishPhoto(postimage string) (id string, err error) {
 	return
 }
 
-func run(location, out string) error {
+func run(location, out string, publish bool) error {
 	dc := gg.NewContext(1200, 690)
 	render.VremeImage(location, dc)
 	if err := dc.SavePNG(out); err != nil {
 		return errors.Wrap(err, "save png")
 	}
-
-	fbPublishPhoto(out)
+	if publish {
+		fbPublishPhoto(out)
+	}
 	return nil
 }
