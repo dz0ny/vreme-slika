@@ -3,6 +3,9 @@ package render
 import (
 	"fmt"
 	"image/color"
+	"io/ioutil"
+	"log"
+	"math/rand"
 	"os"
 	"path/filepath"
 	"strings"
@@ -214,21 +217,30 @@ func fixT(in string) string {
 	return in
 }
 
-func ozadje(dc *gg.Context) {
+func getRandom(path string) string {
 
 	dir, err := os.Getwd()
 	if err != nil {
 		panic(err)
 	}
+	files, err := ioutil.ReadDir(fmt.Sprintf("%s/bg/%s", dir, path))
+	if err != nil {
+		log.Fatal(err)
+	}
+	file := files[rand.Intn(len(files))].Name()
+	return fmt.Sprintf("%s/bg/%s/%s", dir, path, file)
+}
 
-	backgroundImageFilename := "jutro.jpeg"
+func ozadje(dc *gg.Context) {
+
+	backgroundImageFilename := getRandom("jutro")
 	if time.Now().UTC().Hour() > 10 {
-		backgroundImageFilename = "dan.jpeg"
+		backgroundImageFilename = getRandom("dan")
 	}
 	if time.Now().UTC().Hour() > 18 {
-		backgroundImageFilename = "vecer.jpeg"
+		backgroundImageFilename = getRandom("vecer")
 	}
-	backgroundImage, err := gg.LoadImage(fmt.Sprintf("%s/bg/%s", dir, backgroundImageFilename))
+	backgroundImage, err := gg.LoadImage(backgroundImageFilename)
 	if err != nil {
 		panic(err)
 	}
