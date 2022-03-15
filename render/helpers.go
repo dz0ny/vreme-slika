@@ -227,6 +227,7 @@ func getRandom(path string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
+	rand.Seed(time.Now().UnixNano())
 	file := files[rand.Intn(len(files))].Name()
 	return fmt.Sprintf("%s/bg/%s/%s", dir, path, file)
 }
