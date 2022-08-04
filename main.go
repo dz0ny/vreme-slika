@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path"
 	"vreme/render"
@@ -28,6 +29,7 @@ func main() {
 
 func fbPublishPhoto(postimage string) (id string, err error) {
 	if access_token == "" {
+		log.Println("No access token")
 		return
 	}
 	file := fb.File(postimage)
@@ -43,6 +45,7 @@ func fbPublishPhoto(postimage string) (id string, err error) {
 	if err != nil {
 		panic(err)
 	}
+	log.Printf("Published %s\n", id)
 	return
 }
 

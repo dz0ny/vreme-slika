@@ -27,13 +27,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Set up Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v5
       with:
-        go-version: 1.17
-    - uses: actions/cache@v2
+        go-version: 1.21
+    - uses: actions/cache@v4
       with:
         path: |
           ~/.cache/go-build
@@ -48,6 +48,8 @@ jobs:
 
     - name: Run
       run: go run main.go
+      env:
+        TOKEN: ${{ secrets.TOKEN }}
 
     - name: Move files
       run: |
@@ -61,6 +63,15 @@ jobs:
       uses: actions/upload-pages-artifact@v1
       with:
         path: './public'
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@main
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
